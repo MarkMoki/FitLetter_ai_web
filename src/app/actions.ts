@@ -31,6 +31,8 @@ import {
 import { eq, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
+import { requireAuth } from '@/lib/auth';
+
 const handleError = (error: unknown, defaultMessage: string) => {
   console.error(error);
   if (error instanceof Error) {
@@ -80,6 +82,12 @@ export async function findResumeFlaws(input: ResumeFlawSpotterInput) {
 }
 
 export async function getResumesForUser(userId: number) {
+  // Verify the current user can access this data
+  const { user } = await requireAuth();
+  if (user.id !== userId) {
+    return { error: 'Unauthorized access' };
+  }
+
   try {
     const resumeRecords = await db.query.resumes.findMany({
       where: eq(resumesTable.userId, userId),
@@ -134,8 +142,9 @@ export async function saveLetter({
   tone: string;
   atsScore: number;
   resumeId: number;
-  userId: number;
 }) {
+  const { user } = await requireAuth();
+
   try {
     const [savedLetter] = await db
       .insert(lettersTable)
@@ -146,7 +155,7 @@ export async function saveLetter({
         content,
         tone,
         atsScore,
-        userId,
+        userId: user.id,
         resumeId,
       })
       .returning();
@@ -159,6 +168,12 @@ export async function saveLetter({
 }
 
 export async function getApplicationsForUser(userId: number) {
+  // Verify the current user can access this data
+  const { user } = await requireAuth();
+  if (user.id !== userId) {
+    return { error: 'Unauthorized access' };
+  }
+
   try {
     const applications = await db.query.applications.findMany({
       where: eq(applicationsTable.userId, userId),
@@ -178,10 +193,14 @@ export async function addApplication(application: {
   status: string;
   url?: string;
   requirements?: string;
-  userId: number;
 }) {
+  const { user } = await requireAuth();
+
   try {
-    const [newApplication] = await db.insert(applicationsTable).values(application).returning();
+    const [newApplication] = await db.insert(applicationsTable).values({
+      ...application,
+      userId: user.id,
+    }).returning();
     revalidatePath('/applications');
     revalidatePath('/dashboard');
     return {data: newApplication};
@@ -192,8 +211,18 @@ export async function addApplication(application: {
 }
 
 export async function updateApplicationStatus(id: number, status: string) {
+  const { user } = await requireAuth();
+
    try {
-    await db.update(applicationsTable).set({ status }).where(eq(applicationsTable.id, id));
+    // Ensure user can only update their own applications
+    await db.update(applicationsTable)
+      .set({ status })
+      .where(
+        and(
+          eq(applicationsTable.id, id),
+          eq(applicationsTable.userId, user.id)
+        )
+      );
     revalidatePath('/applications');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -202,12 +231,14 @@ export async function updateApplicationStatus(id: number, status: string) {
   }
 }
 
-export async function parseResumeAndSave(input: ParseResumeInput & { title: string, userId: number }) {
+export async function parseResumeAndSave(input: ParseResumeInput & { title: string }) {
+    const { user } = await requireAuth();
+
     try {
         const parsedData = await parseResume(input);
 
         const [newResume] = await db.insert(resumesTable).values({
-            userId: input.userId,
+            userId: user.id,
             title: input.title,
             name: parsedData.name,
             phone: parsedData.phone,
@@ -228,8 +259,16 @@ export async function parseResumeAndSave(input: ParseResumeInput & { title: stri
 }
 
 export async function deleteResume(id: number) {
+  const { user } = await requireAuth();
+
   try {
-    await db.delete(resumesTable).where(eq(resumesTable.id, id));
+    // Ensure user can only delete their own resumes
+    await db.delete(resumesTable).where(
+      and(
+        eq(resumesTable.id, id),
+        eq(resumesTable.userId, user.id)
+      )
+    );
     revalidatePath('/resumes');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -240,8 +279,16 @@ export async function deleteResume(id: number) {
 
 
 export async function deleteLetter(id: number) {
+  const { user } = await requireAuth();
+
   try {
-    await db.delete(lettersTable).where(eq(lettersTable.id, id));
+    // Ensure user can only delete their own letters
+    await db.delete(lettersTable).where(
+      and(
+        eq(lettersTable.id, id),
+        eq(lettersTable.userId, user.id)
+      )
+    );
     revalidatePath('/dashboard');
     return { data: { success: true } };
   } catch(e) {
@@ -249,15 +296,17 @@ export async function deleteLetter(id: number) {
   }
 }
 
-export async function deleteUserAccount(userId: number) {
+export async function deleteUserAccount() {
+  const { user } = await requireAuth();
+
   try {
     // Delete all associated data, respecting foreign key constraints
-    await db.delete(lettersTable).where(eq(lettersTable.userId, userId));
-    await db.delete(applicationsTable).where(eq(applicationsTable.userId, userId));
-    await db.delete(resumesTable).where(eq(resumesTable.userId, userId));
+    await db.delete(lettersTable).where(eq(lettersTable.userId, user.id));
+    await db.delete(applicationsTable).where(eq(applicationsTable.userId, user.id));
+    await db.delete(resumesTable).where(eq(resumesTable.userId, user.id));
     
     // Finally, delete the user
-    await db.delete(users).where(eq(users.id, userId));
+    await db.delete(users).where(eq(users.id, user.id));
 
     revalidatePath('/');
     return { data: { success: true } };
@@ -267,26 +316,13 @@ export async function deleteUserAccount(userId: number) {
   }
 }
 
-export async function signUpUser({ email, name }: { email: string, name: string }) {
-  try {
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.email, email),
-    });
-
-    if (existingUser) {
-      return { data: existingUser };
-    }
-
-    const [newUser] = await db.insert(users).values({ email, name }).returning();
-    return { data: newUser };
-
-  } catch(e) {
-    return handleError(e, 'Failed to sign up.');
-  }
-}
-
-
 export async function getLettersForUser(userId: number) {
+  // Verify the current user can access this data
+  const { user } = await requireAuth();
+  if (user.id !== userId) {
+    return { error: 'Unauthorized access' };
+  }
+
   try {
     const letterRecords = await db.query.letters.findMany({
       where: eq(lettersTable.userId, userId),
@@ -305,8 +341,16 @@ export async function getLettersForUser(userId: number) {
 }
 
 export async function deleteApplication(id: number) {
+  const { user } = await requireAuth();
+
   try {
-    await db.delete(applicationsTable).where(eq(applicationsTable.id, id));
+    // Ensure user can only delete their own applications
+    await db.delete(applicationsTable).where(
+      and(
+        eq(applicationsTable.id, id),
+        eq(applicationsTable.userId, user.id)
+      )
+    );
     revalidatePath('/applications');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -326,8 +370,11 @@ export async function autofillJobDetailsAction(input: AutofillJobDetailsInput): 
 }
 
 export async function updateResume(resume: ParseResumeOutput & { id: number, title: string }) {
+    const { user } = await requireAuth();
+
     try {
-        await db.update(resumesTable).set({
+        await db.update(resumesTable)
+          .set({
             title: resume.title,
             name: resume.name,
             phone: resume.phone,
@@ -340,7 +387,13 @@ export async function updateResume(resume: ParseResumeOutput & { id: number, tit
             projects: typeof resume.projects === 'string' ? resume.projects : JSON.stringify(resume.projects),
             education: typeof resume.education === 'string' ? resume.education : JSON.stringify(resume.education),
             updatedAt: sql`(strftime('%s', 'now'))`,
-        }).where(eq(resumesTable.id, resume.id));
+          })
+          .where(
+            and(
+              eq(resumesTable.id, resume.id),
+              eq(resumesTable.userId, user.id)
+            )
+          );
         revalidatePath('/resumes');
         revalidatePath('/dashboard');
         return { data: { success: true } };

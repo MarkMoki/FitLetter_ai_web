@@ -1,92 +1,79 @@
-
-'use client';
-
-import {Dashboard as DashboardComponent} from '@/components/dashboard';
-import { db } from '@/db';
-import { users, resumes as resumesTable, letters as lettersTable, Resume, Letter, applications as applicationsTable } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { requireAuth } from '@/lib/auth';
+import { getResumesForUser, getLettersForUser, getApplicationsForUser } from '@/app/actions';
+import { Dashboard as DashboardComponent } from '@/components/dashboard';
 import { format } from 'date-fns';
-import { getApplicationsForUser, getLettersForUser, getResumesForUser } from '../actions';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Nav } from '@/components/nav';
+import type { Resume, Letter, Application } from '@/db/schema';
 
+type FormattedResume = Omit<Resume, 'createdAt' | 'updatedAt'> & { 
+  createdAt: string; 
+  updatedAt: string | null; 
+};
+type FormattedLetter = Omit<Letter, 'createdAt'> & { createdAt: string };
 
-const LoadingSkeleton = () => (
-    <div className="min-h-screen w-full bg-background/50">
-      <main className="container mx-auto flex flex-col p-4 sm:p-8">
-        <header className="mb-8 flex items-center justify-between">
-          <Nav />
-        </header>
-        <div className="grid gap-8">
-          <Skeleton className="h-24 w-full" />
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-48 w-full" />
-          </div>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-64 w-full" />
-          </div>
-        </div>
-      </main>
-    </div>
-)
+export default async function DashboardPage() {
+  // Require authentication - will redirect if not authenticated
+  const { user } = await requireAuth();
 
+  try {
+    // Fetch all data in parallel
+    const [resumesResult, lettersResult, applicationsResult] = await Promise.all([
+      getResumesForUser(user.id),
+      getLettersForUser(user.id),
+      getApplicationsForUser(user.id)
+    ]);
 
-export default function DashboardPage() {
-  const [resumes, setResumes] = useState<Resume[]>([]);
-  const [letters, setLetters] = useState<Letter[]>([]);
-  const [applications, setApplications] = useState<Application[]>([]);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    const userId = localStorage.getItem('fitletter_user_id');
-    if (!userId) {
-        router.push('/');
-        return;
+    // Handle errors
+    if (resumesResult.error) {
+      throw new Error(`Failed to load resumes: ${resumesResult.error}`);
     }
-    
-    async function loadData() {
-        setLoading(true);
-        const id = parseInt(userId);
-        const [resumesResult, lettersResult, applicationsResult] = await Promise.all([
-            getResumesForUser(id),
-            getLettersForUser(id),
-            getApplicationsForUser(id)
-        ]);
-        
-        if (resumesResult.data) setResumes(resumesResult.data as any[]);
-        if (lettersResult.data) setLetters(lettersResult.data);
-        if (applicationsResult.data) setApplications(applicationsResult.data);
-
-        setLoading(false);
+    if (lettersResult.error) {
+      throw new Error(`Failed to load letters: ${lettersResult.error}`);
+    }
+    if (applicationsResult.error) {
+      throw new Error(`Failed to load applications: ${applicationsResult.error}`);
     }
 
-    loadData();
-
-  }, [router]);
-
-  if (loading) {
-      return <LoadingSkeleton />;
-  }
-
-  const formattedResumes = resumes.map(r => ({
+    // Format data for display
+    const formattedResumes: FormattedResume[] = (resumesResult.data || []).map(r => ({
       ...r,
       createdAt: r.createdAt ? format(new Date(r.createdAt), 'PP') : '',
-      updatedAt: r.updatedAt ? format(new Date(r.updatedAt), 'PP') : '',
-  }))
+      updatedAt: r.updatedAt ? format(new Date(r.updatedAt), 'PP') : null,
+    }));
 
-  const formattedLetters = letters.map(l => ({
+    const formattedLetters: FormattedLetter[] = (lettersResult.data || []).map(l => ({
       ...l,
       createdAt: l.createdAt ? format(new Date(l.createdAt), 'PP') : '',
-  }))
+    }));
 
+    const applications: Application[] = applicationsResult.data || [];
 
-  return (
-    <DashboardComponent resumes={formattedResumes as any} letters={formattedLetters as any} applications={applications as any} />
-  );
+    return (
+      <DashboardComponent 
+        resumes={formattedResumes as any} 
+        letters={formattedLetters as any} 
+        applications={applications as any} 
+      />
+    );
+  } catch (error) {
+    console.error('Dashboard data loading error:', error);
+    
+    return (
+      <div className="min-h-screen w-full bg-background/50">
+        <main className="container mx-auto flex flex-col p-4 sm:p-8">
+          <div className="flex flex-col items-center justify-center flex-1 text-center">
+            <h2 className="text-2xl font-semibold mb-4">Error Loading Dashboard</h2>
+            <p className="text-muted-foreground mb-4">
+              {error instanceof Error ? error.message : 'Failed to load dashboard data'}
+            </p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-4 py-2 bg-primary text-primary-foreground rounded"
+            >
+              Retry
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 }
