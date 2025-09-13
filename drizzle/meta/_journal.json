@@ -1,0 +1,35 @@
+
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1757341598243,
+      "tag": "0000_grey_pandemic",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1757342829514,
+      "tag": "0001_flat_goliath",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1757434533000,
+      "tag": "0002_add_updated_at_to_resumes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1757523282583,
+      "tag": "0003_foamy_manta",
+      "breakpoints": true
+    }
+  ]
+}
