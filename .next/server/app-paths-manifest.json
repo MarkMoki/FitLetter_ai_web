@@ -1,15 +1,7 @@
 {
-  "/analytics/page": "app/analytics/page.js",
-  "/api/auth/signin/route": "app/api/auth/signin/route.js",
   "/api/auth/signout/route": "app/api/auth/signout/route.js",
-  "/api/auth/signup/route": "app/api/auth/signup/route.js",
-  "/applications/page": "app/applications/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/editor/[id]/page": "app/editor/[id]/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/login/page": "app/login/page.js",
-  "/onboarding/page": "app/onboarding/page.js",
-  "/resumes/page": "app/resumes/page.js",
-  "/settings/page": "app/settings/page.js",
-  "/signup/page": "app/signup/page.js"
+  "/page": "app/page.js",
+  "/start/page": "app/start/page.js"
 }
