@@ -1,6 +1,6 @@
 {
   "node": {
-    "4076b95374759f2b12368920e4ab62b17edc863b49": {
+    "40c55f0796d4646f31a31b4716fb27f9256e3f6752": {
       "workers": {
         "app/analytics/page": {
           "moduleId": "[project]/.next-internal/server/app/analytics/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -11,7 +11,7 @@
         "app/analytics/page": "action-browser"
       }
     },
-    "4019aa2b57f3f3430006c76f174334d19b39def70d": {
+    "40bf626632eecee4e797fac300e35f4c15cd154a50": {
       "workers": {
         "app/analytics/page": {
           "moduleId": "[project]/.next-internal/server/app/analytics/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",

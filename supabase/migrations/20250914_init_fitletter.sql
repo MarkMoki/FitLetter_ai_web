@@ -82,10 +82,10 @@ CREATE INDEX IF NOT EXISTS idx_applications_user_id ON public.applications(user_
 CREATE INDEX IF NOT EXISTS idx_applications_created_at ON public.applications(created_at);
 CREATE INDEX IF NOT EXISTS idx_applications_status ON public.applications(status);
 
--- Disable Row Level Security for now (so anon key can read/write).
--- Replace this with ENABLE ROW LEVEL SECURITY and policies for production.
-ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.sessions DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.resumes DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.letters DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.applications DISABLE ROW LEVEL SECURITY;
+-- Enable Row Level Security (RLS) on all tables.
+-- Policies are defined in a separate migration (see 20250914_enable_rls_and_policies.sql).
+ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.resumes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.letters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.applications ENABLE ROW LEVEL SECURITY;

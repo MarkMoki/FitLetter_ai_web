@@ -95,7 +95,7 @@ export function Nav() {
 
   return (
     <nav className="flex w-full items-center gap-4 md:w-auto">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
         <div className="rounded-lg bg-primary/10 p-2 text-primary">
           <FileText className="h-6 w-6" />
         </div>
@@ -103,6 +103,7 @@ export function Nav() {
           FitLetter
         </h1>
       </div>
+
       
       {isDesktop ? (
         <NavContent />
