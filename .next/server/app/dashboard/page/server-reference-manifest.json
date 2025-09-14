@@ -1,6 +1,6 @@
 {
   "node": {
-    "0049d6dff7b917a84c063d592b02244bcc2c19d1ba": {
+    "0036433bdadd3b33d5c2e7638d23aa4d49acfbea01": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -11,7 +11,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "4004d21dc44d5b7d5143d33ae16f2f1956d3967c0e": {
+    "4000e659ded30f5c6019ab07109b596cd07903b10d": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -22,7 +22,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "401143db42b321cc07c0bfef7c09e90374e90d1cbf": {
+    "4010d7a4488c2e743c20d310d610dc579b36e2f001": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -33,7 +33,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "402238364a5dba037216cf2b852b2dd36057d0739a": {
+    "401240f7e0c56357ec8a867c84c4f0d5e77f1ee877": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -44,7 +44,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "404a408c867868fe71f6272bc2929331a73e663d34": {
+    "4033f9d979ac7988585f5bea20067e171d5ef91422": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -55,7 +55,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "407c18ce0fce21c41bdbbdf1acb3a1cf909a2347a0": {
+    "403ccbd0f6486fe8bdaa81ecd3e287ec2d0c7a4031": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -66,7 +66,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "408fc1da22681178d0f299a450dccf7054e6e0959f": {
+    "40455044b8b6cb8d41375fdb1cbf79bca71ce18f4e": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -77,7 +77,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40a744da2186082f8a1192e7271b3d27fb8d298de7": {
+    "4047c97d722b00ff7cf72562cd5be7adbedf083811": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -88,7 +88,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40afc38fdb913012eb5157c45546cbc4790a8da265": {
+    "404baf5c4e8a65cac3f52781a349f029b1ff0d1b9f": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -99,7 +99,7 @@
         "app/dashboard/page": "action-browser"
       }
     },
-    "40bf626632eecee4e797fac300e35f4c15cd154a50": {
+    "406eb5bb496483dbd56a14fdb5028ffb1dfd3e3d22": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -110,7 +110,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40c55f0796d4646f31a31b4716fb27f9256e3f6752": {
+    "4077bd25a0095a01f375eb5e8472fcdc4e48b22114": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -121,7 +121,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40c9fd410a7dfcaf57e26254ebbeeb139d925b066a": {
+    "4081959f51ead018a4e62dbfa18308f443bbab41ad": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -132,7 +132,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40d66d81a192df7e9a04b8eeeeeaf08cbb51efda0c": {
+    "408bedb5537525cf8c5ecc179de4fbff09187728a1": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -143,7 +143,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40d686125deb59fab02be70f8ee2d98ffb1ea2601d": {
+    "40bd3f08b835fab27cb7bbad5a610a8e07fbb06395": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -154,7 +154,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40d7121a50555a0a35215c581ac355d42dcb8f390d": {
+    "40c3397210db79f9fb2325f022921efabb569b0cfc": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -165,7 +165,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40fc662b9cd6673fc6d85bb61187888b1fab253192": {
+    "40cf83178280ab2d250d19edcb329734b2ecbcc999": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -176,7 +176,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "6032061a1015faefc55db06b0b89a2253c186e6870": {
+    "60b10eaae03ddb1ab4562d3c9d0c0f4e7eee5f5b50": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -187,7 +187,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "4060528f9eb3d207a618f6beb751b1c34cd04f2ae4": {
+    "402c3e7451c5f633f7dca46fd1838ec701703f36d8": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -198,7 +198,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "404a690fb0d89bdc486e5fb5fe011deb65a2650ce3": {
+    "406abd25e72eac521545dfdddecd340a5e47e306b2": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -209,7 +209,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40566bc2f3f254a5a202d4aa4e0d16e2e20a4bae4f": {
+    "40d1035633eac15440e5df26774c9671c157579781": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -220,7 +220,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "400812795c7b0db9e46a7be346938dc85b8e5b126c": {
+    "40cc644fd9062a70698740ede7390b18c064c2b4f6": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -231,7 +231,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "40c1994a745c0c4eba495b0cc4a766d803e31bf905": {
+    "401efaa845d4c5f853a859a31514f81094aaf3bf77": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -242,7 +242,7 @@
         "app/dashboard/page": "rsc"
       }
     },
-    "4066571baa68188558e23717e97ea3537495f54f58": {
+    "4066f8187d83cbcff977a94107af20962422c30577": {
       "workers": {
         "app/dashboard/page": {
           "moduleId": "[project]/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/ai/flows/ats-resume-optimization.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/src/ai/flows/impactful-rewrite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/src/ai/flows/resume-flaw-spotter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/src/ai/flows/tailored-cover-letter.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/src/ai/flows/parse-resume.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE6 => \"[project]/src/ai/flows/autofill-job-details.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
