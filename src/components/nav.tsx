@@ -37,6 +37,11 @@ export function Nav() {
         });
 
         if (response.ok) {
+          try {
+            localStorage.removeItem('fitletter_user_email');
+            localStorage.removeItem('fitletter_user_id');
+            localStorage.removeItem('fitletter_user_name');
+          } catch (_) {}
           toast({
             title: 'Signed Out',
             description: 'You have been signed out successfully.',

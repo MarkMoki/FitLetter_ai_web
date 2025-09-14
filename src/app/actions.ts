@@ -22,15 +22,7 @@ import {
 import { parseResume, ParseResumeInput, ParseResumeOutput } from '@/ai/flows/parse-resume';
 import { autofillJobDetails, AutofillJobDetailsInput, AutofillJobDetailsOutput } from '@/ai/flows/autofill-job-details';
 import { db } from '@/db';
-import {
-  letters as lettersTable,
-  resumes as resumesTable,
-  users,
-  applications as applicationsTable,
-} from '@/db/schema';
-import { eq, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-
 import { requireAuth } from '@/lib/auth';
 
 const handleError = (error: unknown, defaultMessage: string) => {
@@ -82,39 +74,57 @@ export async function findResumeFlaws(input: ResumeFlawSpotterInput) {
 }
 
 export async function getResumesForUser(userId: number) {
-  // Verify the current user can access this data
   const { user } = await requireAuth();
   if (user.id !== userId) {
     return { error: 'Unauthorized access' };
   }
 
   try {
-    const resumeRecords = await db.query.resumes.findMany({
-      where: eq(resumesTable.userId, userId),
-      orderBy: (resumes, { desc }) => [desc(resumes.createdAt)],
-    });
+    const { data, error } = await db
+      .from('resumes')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
 
-    const parsedResumes = resumeRecords.map((r) => {
+    if (error) return handleError(error, 'Failed to fetch resumes.');
+
+    const parsedResumes = (data || []).map((r: any) => {
       try {
         return {
-          ...r,
-          createdAt: new Date(r.createdAt! * 1000),
-          updatedAt: r.updatedAt ? new Date(r.updatedAt * 1000) : null,
-          experiences: JSON.parse(r.experiences),
-          education: JSON.parse(r.education),
+          id: r.id,
+          title: r.title,
+          name: r.name,
+          phone: r.phone,
+          email: r.email,
+          linkedinUrl: r.linkedin_url,
+          portfolioUrl: r.portfolio_url,
+          summary: r.summary,
           skills: typeof r.skills === 'string' ? JSON.parse(r.skills) : r.skills,
-          projects: JSON.parse(r.projects),
+          experiences: typeof r.experiences === 'string' ? JSON.parse(r.experiences) : r.experiences,
+          projects: typeof r.projects === 'string' ? JSON.parse(r.projects) : r.projects,
+          education: typeof r.education === 'string' ? JSON.parse(r.education) : r.education,
+          userId: r.user_id,
+          createdAt: new Date((r.created_at as number) * 1000),
+          updatedAt: r.updated_at ? new Date((r.updated_at as number) * 1000) : null,
         };
       } catch (e) {
         console.error('Failed to parse resume data', e);
         return {
-          ...r,
-          experiences: [],
-          education: [],
+          id: r.id,
+          title: r.title,
+          name: r.name,
+          phone: r.phone,
+          email: r.email,
+          linkedinUrl: r.linkedin_url,
+          portfolioUrl: r.portfolio_url,
+          summary: r.summary,
           skills: [],
+          experiences: [],
           projects: [],
-          createdAt: new Date(r.createdAt! * 1000),
-          updatedAt: r.updatedAt ? new Date(r.updatedAt * 1000) : null,
+          education: [],
+          userId: r.user_id,
+          createdAt: new Date((r.created_at as number) * 1000),
+          updatedAt: r.updated_at ? new Date((r.updated_at as number) * 1000) : null,
         };
       }
     });
@@ -133,7 +143,7 @@ export async function saveLetter({
   tone,
   atsScore,
   resumeId,
-  userId
+  userId,
 }: {
   jobTitle: string;
   company: string;
@@ -142,46 +152,75 @@ export async function saveLetter({
   tone: string;
   atsScore: number;
   resumeId: number;
+  userId?: number;
 }) {
   const { user } = await requireAuth();
 
   try {
-    const [savedLetter] = await db
-      .insert(lettersTable)
-      .values({
-        jobTitle,
+    const { data, error } = await db
+      .from('letters')
+      .insert({
+        job_title: jobTitle,
         company,
-        jobDesc,
+        job_desc: jobDesc,
         content,
         tone,
-        atsScore,
-        userId: user.id,
-        resumeId,
+        ats_score: atsScore,
+        user_id: user.id,
+        resume_id: resumeId,
       })
-      .returning();
+      .select('*')
+      .single();
+
+    if (error) return handleError(error, 'Failed to save cover letter.');
 
     revalidatePath('/dashboard');
-    return { data: savedLetter };
+    const mapped = data && {
+      id: data.id,
+      jobTitle: data.job_title,
+      company: data.company,
+      jobDesc: data.job_desc,
+      content: data.content,
+      tone: data.tone,
+      atsScore: data.ats_score,
+      userId: data.user_id,
+      resumeId: data.resume_id,
+      createdAt: new Date((data.created_at as number) * 1000),
+    };
+    return { data: mapped as any };
   } catch (error) {
     return handleError(error, 'Failed to save cover letter.');
   }
 }
 
 export async function getApplicationsForUser(userId: number) {
-  // Verify the current user can access this data
   const { user } = await requireAuth();
   if (user.id !== userId) {
     return { error: 'Unauthorized access' };
   }
 
   try {
-    const applications = await db.query.applications.findMany({
-      where: eq(applicationsTable.userId, userId),
-      orderBy: (applications, { desc }) => [desc(applications.createdAt)],
-    });
-    
-    return { data: applications };
+    const { data, error } = await db
+      .from('applications')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
 
+    if (error) return handleError(error, 'Failed to fetch applications');
+
+    const mapped = (data || []).map((a: any) => ({
+      id: a.id,
+      jobTitle: a.job_title,
+      company: a.company,
+      status: a.status,
+      url: a.url,
+      requirements: a.requirements,
+      deadline: a.deadline ?? null,
+      userId: a.user_id,
+      createdAt: a.created_at as number,
+    }));
+
+    return { data: mapped as any };
   } catch (error) {
     return handleError(error, 'Failed to fetch applications');
   }
@@ -193,18 +232,40 @@ export async function addApplication(application: {
   status: string;
   url?: string;
   requirements?: string;
+  userId?: number;
 }) {
   const { user } = await requireAuth();
 
   try {
-    const [newApplication] = await db.insert(applicationsTable).values({
-      ...application,
-      userId: user.id,
-    }).returning();
+    const { data, error } = await db
+      .from('applications')
+      .insert({
+        job_title: application.jobTitle,
+        company: application.company,
+        status: application.status,
+        url: application.url,
+        requirements: application.requirements,
+        user_id: user.id,
+      })
+      .select('*')
+      .single();
+
+    if (error) return handleError(error, 'Failed to add application');
+
     revalidatePath('/applications');
     revalidatePath('/dashboard');
-    return {data: newApplication};
-
+    const mapped = data && ({
+      id: data.id,
+      jobTitle: data.job_title,
+      company: data.company,
+      status: data.status,
+      url: data.url,
+      requirements: data.requirements,
+      deadline: data.deadline ?? null,
+      userId: data.user_id,
+      createdAt: data.created_at as number,
+    });
+    return { data: mapped as any };
   } catch(error) {
     return handleError(error, 'Failed to add application');
   }
@@ -213,16 +274,15 @@ export async function addApplication(application: {
 export async function updateApplicationStatus(id: number, status: string) {
   const { user } = await requireAuth();
 
-   try {
-    // Ensure user can only update their own applications
-    await db.update(applicationsTable)
-      .set({ status })
-      .where(
-        and(
-          eq(applicationsTable.id, id),
-          eq(applicationsTable.userId, user.id)
-        )
-      );
+  try {
+    const { error } = await db
+      .from('applications')
+      .update({ status })
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) return handleError(error, 'Failed to update application status');
+
     revalidatePath('/applications');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -231,44 +291,69 @@ export async function updateApplicationStatus(id: number, status: string) {
   }
 }
 
-export async function parseResumeAndSave(input: ParseResumeInput & { title: string }) {
-    const { user } = await requireAuth();
+export async function parseResumeAndSave(input: ParseResumeInput & { title: string; userId?: number }) {
+  const { user } = await requireAuth();
 
-    try {
-        const parsedData = await parseResume(input);
+  try {
+    const parsedData = await parseResume(input);
 
-        const [newResume] = await db.insert(resumesTable).values({
-            userId: user.id,
-            title: input.title,
-            name: parsedData.name,
-            phone: parsedData.phone,
-            email: parsedData.email,
-            linkedinUrl: parsedData.linkedinUrl,
-            portfolioUrl: parsedData.portfolioUrl,
-            summary: parsedData.summary,
-            skills: JSON.stringify(parsedData.skills),
-            experiences: JSON.stringify(parsedData.experiences),
-            projects: JSON.stringify(parsedData.projects),
-            education: JSON.stringify(parsedData.education),
-        }).returning();
-        revalidatePath('/resumes');
-        return { data: newResume };
-    } catch (error) {
-        return handleError(error, 'Failed to parse and save resume.');
-    }
+    const { data, error } = await db
+      .from('resumes')
+      .insert({
+        user_id: user.id,
+        title: input.title,
+        name: parsedData.name,
+        phone: parsedData.phone,
+        email: parsedData.email,
+        linkedin_url: parsedData.linkedinUrl,
+        portfolio_url: parsedData.portfolioUrl,
+        summary: parsedData.summary,
+        skills: JSON.stringify(parsedData.skills),
+        experiences: JSON.stringify(parsedData.experiences),
+        projects: JSON.stringify(parsedData.projects),
+        education: JSON.stringify(parsedData.education),
+      })
+      .select('*')
+      .single();
+
+    if (error) return handleError(error, 'Failed to parse and save resume.');
+
+    revalidatePath('/resumes');
+    const mapped = data && ({
+      id: data.id,
+      title: data.title,
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      linkedinUrl: data.linkedin_url,
+      portfolioUrl: data.portfolio_url,
+      summary: data.summary,
+      skills: data.skills,
+      experiences: data.experiences,
+      projects: data.projects,
+      education: data.education,
+      userId: data.user_id,
+      createdAt: data.created_at as number,
+      updatedAt: data.updated_at ?? null,
+    });
+    return { data: mapped as any };
+  } catch (error) {
+    return handleError(error, 'Failed to parse and save resume.');
+  }
 }
 
 export async function deleteResume(id: number) {
   const { user } = await requireAuth();
 
   try {
-    // Ensure user can only delete their own resumes
-    await db.delete(resumesTable).where(
-      and(
-        eq(resumesTable.id, id),
-        eq(resumesTable.userId, user.id)
-      )
-    );
+    const { error } = await db
+      .from('resumes')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) return handleError(error, 'Failed to delete resume.');
+
     revalidatePath('/resumes');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -282,13 +367,14 @@ export async function deleteLetter(id: number) {
   const { user } = await requireAuth();
 
   try {
-    // Ensure user can only delete their own letters
-    await db.delete(lettersTable).where(
-      and(
-        eq(lettersTable.id, id),
-        eq(lettersTable.userId, user.id)
-      )
-    );
+    const { error } = await db
+      .from('letters')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) return handleError(error, 'Failed to delete letter.');
+
     revalidatePath('/dashboard');
     return { data: { success: true } };
   } catch(e) {
@@ -300,39 +386,45 @@ export async function deleteUserAccount() {
   const { user } = await requireAuth();
 
   try {
-    // Delete all associated data, respecting foreign key constraints
-    await db.delete(lettersTable).where(eq(lettersTable.userId, user.id));
-    await db.delete(applicationsTable).where(eq(applicationsTable.userId, user.id));
-    await db.delete(resumesTable).where(eq(resumesTable.userId, user.id));
-    
-    // Finally, delete the user
-    await db.delete(users).where(eq(users.id, user.id));
+    await db.from('letters').delete().eq('user_id', user.id);
+    await db.from('applications').delete().eq('user_id', user.id);
+    await db.from('resumes').delete().eq('user_id', user.id);
+    await db.from('users').delete().eq('id', user.id);
 
     revalidatePath('/');
     return { data: { success: true } };
-
   } catch(e) {
     return handleError(e, 'Failed to delete account.');
   }
 }
 
 export async function getLettersForUser(userId: number) {
-  // Verify the current user can access this data
   const { user } = await requireAuth();
   if (user.id !== userId) {
     return { error: 'Unauthorized access' };
   }
 
   try {
-    const letterRecords = await db.query.letters.findMany({
-      where: eq(lettersTable.userId, userId),
-      orderBy: (letters, { desc }) => [desc(letters.createdAt)],
-    });
+    const { data, error } = await db
+      .from('letters')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
 
-    const parsedLetters = letterRecords.map((l) => ({
-      ...l,
-      createdAt: new Date(l.createdAt! * 1000)
-    }))
+    if (error) return handleError(error, 'Failed to fetch letters.');
+
+    const parsedLetters = (data || []).map((l: any) => ({
+      id: l.id,
+      jobTitle: l.job_title,
+      company: l.company,
+      jobDesc: l.job_desc,
+      content: l.content,
+      tone: l.tone,
+      atsScore: l.ats_score,
+      userId: l.user_id,
+      resumeId: l.resume_id,
+      createdAt: new Date((l.created_at as number) * 1000),
+    }));
 
     return { data: parsedLetters };
   } catch (error) {
@@ -344,13 +436,14 @@ export async function deleteApplication(id: number) {
   const { user } = await requireAuth();
 
   try {
-    // Ensure user can only delete their own applications
-    await db.delete(applicationsTable).where(
-      and(
-        eq(applicationsTable.id, id),
-        eq(applicationsTable.userId, user.id)
-      )
-    );
+    const { error } = await db
+      .from('applications')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) return handleError(error, 'Failed to delete application.');
+
     revalidatePath('/applications');
     revalidatePath('/dashboard');
     return { data: { success: true } };
@@ -370,34 +463,34 @@ export async function autofillJobDetailsAction(input: AutofillJobDetailsInput): 
 }
 
 export async function updateResume(resume: ParseResumeOutput & { id: number, title: string }) {
-    const { user } = await requireAuth();
+  const { user } = await requireAuth();
 
-    try {
-        await db.update(resumesTable)
-          .set({
-            title: resume.title,
-            name: resume.name,
-            phone: resume.phone,
-            email: resume.email,
-            linkedinUrl: resume.linkedinUrl,
-            portfolioUrl: resume.portfolioUrl,
-            summary: resume.summary,
-            skills: typeof resume.skills === 'string' ? resume.skills : JSON.stringify(resume.skills),
-            experiences: typeof resume.experiences === 'string' ? resume.experiences : JSON.stringify(resume.experiences),
-            projects: typeof resume.projects === 'string' ? resume.projects : JSON.stringify(resume.projects),
-            education: typeof resume.education === 'string' ? resume.education : JSON.stringify(resume.education),
-            updatedAt: sql`(strftime('%s', 'now'))`,
-          })
-          .where(
-            and(
-              eq(resumesTable.id, resume.id),
-              eq(resumesTable.userId, user.id)
-            )
-          );
-        revalidatePath('/resumes');
-        revalidatePath('/dashboard');
-        return { data: { success: true } };
-    } catch(e) {
-        return handleError(e, 'Failed to update resume.');
-    }
+  try {
+    const { error } = await db
+      .from('resumes')
+      .update({
+        title: resume.title,
+        name: resume.name,
+        phone: resume.phone,
+        email: resume.email,
+        linkedin_url: resume.linkedinUrl,
+        portfolio_url: resume.portfolioUrl,
+        summary: resume.summary,
+        skills: typeof resume.skills === 'string' ? resume.skills : JSON.stringify(resume.skills),
+        experiences: typeof resume.experiences === 'string' ? resume.experiences : JSON.stringify(resume.experiences),
+        projects: typeof resume.projects === 'string' ? resume.projects : JSON.stringify(resume.projects),
+        education: typeof resume.education === 'string' ? resume.education : JSON.stringify(resume.education),
+        updated_at: Math.floor(Date.now() / 1000),
+      })
+      .eq('id', resume.id)
+      .eq('user_id', user.id);
+
+    if (error) return handleError(error, 'Failed to update resume.');
+
+    revalidatePath('/resumes');
+    revalidatePath('/dashboard');
+    return { data: { success: true } };
+  } catch(e) {
+    return handleError(e, 'Failed to update resume.');
+  }
 }

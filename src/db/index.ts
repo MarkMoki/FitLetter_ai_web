@@ -1,77 +1,33 @@
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { config as loadEnv } from 'dotenv';
 
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
-import * as schema from './schema';
-import { eq } from 'drizzle-orm';
-
-const sqlite = new Database('sqlite.db');
-export const db = drizzle(sqlite, { schema });
-
-// --- One-time Database Initialization ---
-function initializeDB() {
-    console.log('Running one-time database initialization...');
-    try {
-        // Use raw SQL to create tables if they don't exist. This is more resilient than migrations for setup.
-        sqlite.exec(`
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
-                name TEXT,
-                email TEXT NOT NULL UNIQUE,
-                created_at INTEGER DEFAULT (strftime('%s', 'now'))
-            );
-            CREATE TABLE IF NOT EXISTS resumes (
-                id INTEGER PRIMARY KEY,
-                title TEXT NOT NULL,
-                name TEXT NOT NULL,
-                phone TEXT NOT NULL,
-                email TEXT NOT NULL,
-                linkedin_url TEXT,
-                portfolio_url TEXT,
-                summary TEXT NOT NULL,
-                skills TEXT NOT NULL,
-                experiences TEXT NOT NULL,
-                projects TEXT NOT NULL,
-                education TEXT NOT NULL,
-                user_id INTEGER NOT NULL,
-                created_at INTEGER DEFAULT (strftime('%s', 'now')),
-                updated_at INTEGER,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            );
-            CREATE TABLE IF NOT EXISTS letters (
-                id INTEGER PRIMARY KEY,
-                job_title TEXT NOT NULL,
-                company TEXT NOT NULL,
-                job_desc TEXT NOT NULL,
-                content TEXT NOT NULL,
-                tone TEXT NOT NULL,
-                ats_score INTEGER,
-                user_id INTEGER NOT NULL,
-                resume_id INTEGER NOT NULL,
-                created_at INTEGER DEFAULT (strftime('%s', 'now')),
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                FOREIGN KEY (resume_id) REFERENCES resumes(id) ON DELETE CASCADE
-            );
-            CREATE TABLE IF NOT EXISTS applications (
-                id INTEGER PRIMARY KEY,
-                job_title TEXT NOT NULL,
-                company TEXT NOT NULL,
-                status TEXT NOT NULL DEFAULT 'Saved',
-                url TEXT,
-                deadline INTEGER,
-                user_id INTEGER NOT NULL,
-                created_at INTEGER DEFAULT (strftime('%s', 'now')),
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            );
-        `);
-        console.log('✅ Tables created or already exist.');
-        
-        console.log('Database initialization complete.');
-    } catch (e) {
-        console.error('Database initialization failed:', e);
-        // Exit process if DB setup fails, as the app is unusable
-        process.exit(1);
-    }
+// Load from env/env.example if not provided via .env/.env.local
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  loadEnv({ path: 'env' });
+}
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  loadEnv({ path: 'env.example' });
 }
 
-// Run initialization
-initializeDB();
+const PUBLIC_URL = process.env.NEXT_PUBLIC_SUPABASE_URL as string | undefined;
+const PUBLIC_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string | undefined;
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY as string | undefined;
+
+if (!PUBLIC_URL || (!PUBLIC_ANON_KEY && !SERVICE_ROLE_KEY)) {
+  throw new Error(
+    'Supabase env vars missing. Provide NEXT_PUBLIC_SUPABASE_URL and either NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY.'
+  );
+}
+
+// Server actions and API routes should use the service role key if available to bypass RLS.
+// We export a single client named `db` for server usage.
+export const db: SupabaseClient = createClient(
+  PUBLIC_URL,
+  (SERVICE_ROLE_KEY || PUBLIC_ANON_KEY)!,
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  }
+);

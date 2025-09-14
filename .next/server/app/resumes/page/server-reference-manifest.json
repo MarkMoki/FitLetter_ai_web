@@ -1,0 +1,38 @@
+{
+  "node": {
+    "40a5aa441f00d03dfd13053ae26a3b7f421a5c211a": {
+      "workers": {
+        "app/resumes/page": {
+          "moduleId": "[project]/.next-internal/server/app/resumes/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/resumes/page": "action-browser"
+      }
+    },
+    "404ff1806eab37399e41d5d92aaed37652bed9daaa": {
+      "workers": {
+        "app/resumes/page": {
+          "moduleId": "[project]/.next-internal/server/app/resumes/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/resumes/page": "action-browser"
+      }
+    },
+    "40be60d247fd56349263bbc432894106cfb316acce": {
+      "workers": {
+        "app/resumes/page": {
+          "moduleId": "[project]/.next-internal/server/app/resumes/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/resumes/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}

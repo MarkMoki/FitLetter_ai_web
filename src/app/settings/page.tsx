@@ -55,12 +55,18 @@ export default function SettingsPage() {
         });
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem('fitletter_user_email');
-        localStorage.removeItem('fitletter_user_id');
-        localStorage.removeItem('fitletter_user_name');
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/signout', { method: 'POST' });
+        } catch (_) {}
+        try {
+            localStorage.removeItem('fitletter_user_email');
+            localStorage.removeItem('fitletter_user_id');
+            localStorage.removeItem('fitletter_user_name');
+        } catch (_) {}
         toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
         router.push('/');
+        router.refresh();
     }
 
     return (

@@ -4,15 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
-    "dev:reset": "rm -f sqlite.db && next dev --turbopack -p 9002",
-    "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
+        "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
-    "postinstall": "patch-package"
+        "postinstall": "patch-package"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
@@ -41,15 +39,14 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
-    "better-sqlite3": "^11.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "copy-webpack-plugin": "^12.0.2",
     "date-fns": "^3.6.0",
     "dotenv": "^16.5.0",
-    "drizzle-orm": "^0.32.1",
     "embla-carousel-react": "^8.6.0",
+    "@supabase/supabase-js": "^2.45.4",
     "firebase": "^11.9.1",
     "genkit": "^1.14.1",
     "jspdf": "^2.5.1",
@@ -69,12 +66,10 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.11",
     "@types/node": "^20",
     "@types/pdfjs-dist": "^2.10.378",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "drizzle-kit": "^0.23.0",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",

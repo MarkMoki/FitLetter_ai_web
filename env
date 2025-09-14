@@ -1,3 +1,6 @@
 # Genkit/Google AI API Key
 # Get one from Google AI Studio: https://aistudio.google.com/app/apikey
 GEMINI_API_KEY=AIzaSyDNfj5PFcB8lR3-uEbaPM8J8SRUHFrMldQ
+
+NEXT_PUBLIC_SUPABASE_URL=https://easwqridfcyhvtqbpynp.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhc3dxcmlkZmN5aHZ0cWJweW5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3NDg5NTUsImV4cCI6MjA3MzMyNDk1NX0.9ZCZTLtjYVRmWsHM2tr-5qFlfn8tAzg_-g014dH7xnk

@@ -20,8 +20,7 @@ FitLetter is a full-stack application designed to help job seekers create perfec
 -   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 -   **UI Components**: [ShadCN UI](https://ui.shadcn.com/)
 -   **Generative AI**: [Google AI (Gemini) via Genkit](https://firebase.google.com/docs/genkit)
--   **Database ORM**: [Drizzle ORM](https://orm.drizzle.team/)
--   **Database**: [Better-SQLite3](https://github.com/WiseLibs/better-sqlite3)
+-   **Database**: [Supabase Postgres](https://supabase.com/) via `@supabase/supabase-js`
 
 ## 🛠️ Getting Started
 

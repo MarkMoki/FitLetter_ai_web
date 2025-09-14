@@ -1,6 +1,1 @@
-
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import { db } from './index';
-
-// This will run migrations on the database, skipping the ones already applied
-migrate(db, { migrationsFolder: './drizzle' });
+// obsolete: Drizzle migration runner removed after migrating to Supabase

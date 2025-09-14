@@ -47,6 +47,17 @@ export default function LoginPage() {
           description: 'You have been signed in successfully.',
         });
 
+        // Persist user identity in localStorage for client pages that rely on it
+        try {
+          if (data?.user) {
+            localStorage.setItem('fitletter_user_id', String(data.user.id));
+            localStorage.setItem('fitletter_user_email', data.user.email);
+            if (data.user.name) localStorage.setItem('fitletter_user_name', data.user.name);
+          }
+        } catch (_) {
+          // ignore storage errors (e.g., SSR/hydration edge cases)
+        }
+
         router.push('/dashboard');
         router.refresh();
       } catch (error) {

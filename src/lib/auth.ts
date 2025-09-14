@@ -1,8 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { db } from '@/db';
-import { users, sessions } from '@/db/schema';
-import { eq, and, gt } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcryptjs';
 
@@ -45,16 +43,21 @@ export async function verifyPassword(password: string, hashedPassword: string): 
   return bcrypt.compare(password, hashedPassword);
 }
 
-// Create session
+// Create session (stored in Supabase sessions table)
 export async function createSession(userId: number): Promise<string> {
   const token = generateSessionToken();
-  const expiresAt = new Date(Date.now() + SESSION_DURATION);
+  const expiresAtMs = Date.now() + SESSION_DURATION;
+  const expiresAtSec = Math.floor(expiresAtMs / 1000);
 
-  await db.insert(sessions).values({
-    id: token,
-    userId,
-    expiresAt,
-  });
+  const { error } = await db
+    .from('sessions')
+    .insert({ id: token, user_id: userId, expires_at: expiresAtSec })
+    .select()
+    .single();
+
+  if (error) {
+    throw new AuthError(`Failed to create session: ${error.message}`, 'SESSION_CREATE_FAILED');
+  }
 
   // Set secure HTTP-only cookie
   const cookieStore = await cookies();
@@ -62,7 +65,7 @@ export async function createSession(userId: number): Promise<string> {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    expires: expiresAt,
+    expires: new Date(expiresAtMs),
     path: '/',
   });
 
@@ -78,41 +81,50 @@ export async function getCurrentSession(): Promise<{ user: User; session: Sessio
     return null;
   }
 
-  // Get session with user data
-  const result = await db
-    .select({
-      session: sessions,
-      user: users,
-    })
-    .from(sessions)
-    .innerJoin(users, eq(sessions.userId, users.id))
-    .where(
-      and(
-        eq(sessions.id, token),
-        gt(sessions.expiresAt, new Date())
-      )
-    )
-    .limit(1);
+  const nowSec = Math.floor(Date.now() / 1000);
 
-  if (result.length === 0) {
-    // Clean up expired session cookie
+  // Get session
+  const { data: sessionRow, error: sessionError } = await db
+    .from('sessions')
+    .select('*')
+    .eq('id', token)
+    .gt('expires_at', nowSec)
+    .maybeSingle();
+
+  if (sessionError) {
+    // On query errors, invalidate cookie silently
     await invalidateSession();
     return null;
   }
 
-  const { session, user } = result[0];
+  if (!sessionRow) {
+    await invalidateSession();
+    return null;
+  }
+
+  // Get user data
+  const { data: userRow, error: userError } = await db
+    .from('users')
+    .select('*')
+    .eq('id', sessionRow.user_id)
+    .maybeSingle();
+
+  if (userError || !userRow) {
+    await invalidateSession();
+    return null;
+  }
 
   return {
     user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      createdAt: user.createdAt || new Date(),
+      id: userRow.id,
+      email: userRow.email,
+      name: userRow.name ?? null,
+      createdAt: userRow.created_at ? new Date((userRow.created_at as number) * 1000) : new Date(),
     },
     session: {
-      id: session.id,
-      userId: session.userId,
-      expiresAt: session.expiresAt || new Date(),
+      id: sessionRow.id,
+      userId: sessionRow.user_id,
+      expiresAt: new Date((sessionRow.expires_at as number) * 1000),
     },
   };
 }
@@ -134,72 +146,88 @@ export async function invalidateSession(): Promise<void> {
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
 
   if (token) {
-    // Remove from database
-    await db.delete(sessions).where(eq(sessions.id, token));
+    await db.from('sessions').delete().eq('id', token);
   }
 
-  // Clear cookie
   cookieStore.delete(SESSION_COOKIE_NAME);
 }
 
 // Clean up expired sessions (should be run periodically)
 export async function cleanupExpiredSessions(): Promise<void> {
-  await db.delete(sessions).where(
-    and(
-      sessions.expiresAt,
-      sessions.expiresAt < new Date()
-    )
-  );
+  const nowSec = Math.floor(Date.now() / 1000);
+  await db.from('sessions').delete().lt('expires_at', nowSec);
 }
 
 // Sign up user
 export async function signUp(email: string, password: string, name: string): Promise<User> {
+  const normalizedEmail = email.toLowerCase().trim();
+  const trimmedName = name.trim();
+
   // Check if user already exists
-  const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, email.toLowerCase().trim()),
-  });
+  const { data: existingUser, error: existingErr } = await db
+    .from('users')
+    .select('id')
+    .eq('email', normalizedEmail)
+    .maybeSingle();
+
+  if (existingErr) {
+    throw new AuthError(`Failed to check existing user: ${existingErr.message}`, 'DB_ERROR');
+  }
 
   if (existingUser) {
     throw new AuthError('User already exists with this email', 'USER_EXISTS');
   }
 
   // Hash password and create user
-  const hashedPassword = await hashPassword(password);
-  
-  const [newUser] = await db.insert(users).values({
-    email: email.toLowerCase().trim(),
-    name: name.trim(),
-    passwordHash: hashedPassword,
-  }).returning();
+  const passwordHash = await hashPassword(password);
+  const createdAtSec = Math.floor(Date.now() / 1000);
+
+  const { data: insertedUser, error: insertErr } = await db
+    .from('users')
+    .insert({ email: normalizedEmail, name: trimmedName, password_hash: passwordHash, created_at: createdAtSec })
+    .select('*')
+    .single();
+
+  if (insertErr) {
+    throw new AuthError(`Failed to create user: ${insertErr.message}`, 'USER_CREATE_FAILED');
+  }
 
   return {
-    id: newUser.id,
-    email: newUser.email,
-    name: newUser.name,
-    createdAt: newUser.createdAt || new Date(),
+    id: insertedUser.id,
+    email: insertedUser.email,
+    name: insertedUser.name ?? null,
+    createdAt: insertedUser.created_at ? new Date((insertedUser.created_at as number) * 1000) : new Date(),
   };
 }
 
 // Sign in user
 export async function signIn(email: string, password: string): Promise<User> {
-  const user = await db.query.users.findFirst({
-    where: eq(users.email, email.toLowerCase().trim()),
-  });
+  const normalizedEmail = email.toLowerCase().trim();
 
-  if (!user || !user.passwordHash) {
+  const { data: userRow, error } = await db
+    .from('users')
+    .select('*')
+    .eq('email', normalizedEmail)
+    .maybeSingle();
+
+  if (error) {
+    throw new AuthError(`Failed to fetch user: ${error.message}`, 'DB_ERROR');
+  }
+
+  if (!userRow || !userRow.password_hash) {
     throw new AuthError('Invalid email or password', 'INVALID_CREDENTIALS');
   }
 
-  const isValidPassword = await verifyPassword(password, user.passwordHash);
+  const isValidPassword = await verifyPassword(password, userRow.password_hash);
   
   if (!isValidPassword) {
     throw new AuthError('Invalid email or password', 'INVALID_CREDENTIALS');
   }
 
   return {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    createdAt: user.createdAt || new Date(),
+    id: userRow.id,
+    email: userRow.email,
+    name: userRow.name ?? null,
+    createdAt: userRow.created_at ? new Date((userRow.created_at as number) * 1000) : new Date(),
   };
 }

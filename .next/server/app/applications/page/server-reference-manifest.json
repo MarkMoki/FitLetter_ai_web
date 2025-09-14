@@ -1,0 +1,60 @@
+{
+  "node": {
+    "4007e4a2a4706688e97ec326bdbd42296039c2e654": {
+      "workers": {
+        "app/applications/page": {
+          "moduleId": "[project]/.next-internal/server/app/applications/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/applications/page": "action-browser"
+      }
+    },
+    "406102954697945da8370262cbb0571c50e0ebb4ad": {
+      "workers": {
+        "app/applications/page": {
+          "moduleId": "[project]/.next-internal/server/app/applications/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/applications/page": "action-browser"
+      }
+    },
+    "40fe1ca2983c4f348aec2c64f3c7f237be7b9e33ec": {
+      "workers": {
+        "app/applications/page": {
+          "moduleId": "[project]/.next-internal/server/app/applications/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/applications/page": "action-browser"
+      }
+    },
+    "4076b95374759f2b12368920e4ab62b17edc863b49": {
+      "workers": {
+        "app/applications/page": {
+          "moduleId": "[project]/.next-internal/server/app/applications/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/applications/page": "action-browser"
+      }
+    },
+    "60b3eff53e047897277db110dc2e93132e7588d1c2": {
+      "workers": {
+        "app/applications/page": {
+          "moduleId": "[project]/.next-internal/server/app/applications/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/applications/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}

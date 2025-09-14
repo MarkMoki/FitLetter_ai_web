@@ -71,6 +71,15 @@ export default function SignUpPage() {
           description: 'Your account has been created successfully.',
         });
 
+        // Persist user identity in localStorage for client pages that rely on it
+        try {
+          if (data?.user) {
+            localStorage.setItem('fitletter_user_id', String(data.user.id));
+            localStorage.setItem('fitletter_user_email', data.user.email);
+            if (data.user.name) localStorage.setItem('fitletter_user_name', data.user.name);
+          }
+        } catch (_) {}
+
         router.push('/onboarding');
         router.refresh();
       } catch (error) {
